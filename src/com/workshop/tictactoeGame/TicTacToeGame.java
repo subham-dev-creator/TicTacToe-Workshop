@@ -44,6 +44,14 @@ public class TicTacToeGame {
 		    System.out.println("-------------");
 		}
 	}
+	private boolean choosePosition() {
+		// Taking Choice of User to get the Current Position in Board
+		
+		System.out.println("Choose any Number Between 1 and 9 ");
+		int currentPos=scannerObj.nextInt();
+		boolean status = (board[currentPos]==BLANK) ? true : false;
+		return status;
+	}
 	public static void main(String args[]) {
 		System.out.println("Game");
 		TicTacToeGame game1 = new TicTacToeGame();
@@ -52,9 +60,7 @@ public class TicTacToeGame {
 		game1.player_choice_XO();
 		game1.showPlayer();
 		game1.showBoard();
+		System.out.print(game1.choosePosition());
 	}
 	
-	
-	
-
 }
