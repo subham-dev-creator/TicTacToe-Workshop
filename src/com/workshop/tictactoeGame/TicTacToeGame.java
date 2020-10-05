@@ -13,8 +13,9 @@ public class TicTacToeGame {
 	private static int boardSize=10;
 	private char playerChar;
 	private char opponentChar;
+	private int playerCurrentPos;
 	private final Scanner scannerObj = new Scanner(System.in);
-	
+
 	
 	//Class Functions
 	private void board()
@@ -44,13 +45,33 @@ public class TicTacToeGame {
 		    System.out.println("-------------");
 		}
 	}
-	private boolean choosePosition() {
+	private boolean getStatus(int currentPos) {
+		//Check the availability in board for the currentPos 
+		if(currentPos>=boardSize || currentPos<1)
+			return false;
+		boolean status = (board[currentPos]==BLANK) ? true : false;
+		return status;
+	}
+	private int choosePosition() {
 		// Taking Choice of User to get the Current Position in Board
 		
 		System.out.println("Choose any Number Between 1 and 9 ");
 		int currentPos=scannerObj.nextInt();
-		boolean status = (board[currentPos]==BLANK) ? true : false;
-		return status;
+		while((currentPos>=boardSize || currentPos<1) && !getStatus(currentPos)) {
+				System.out.println("Choose any Number Between 1 and 9 ");
+				currentPos=scannerObj.nextInt();
+			}
+		return currentPos; 
+	}
+	
+	private void playerCurrentPosSetter(int cur) {
+		this.playerCurrentPos=cur;
+		return;
+	}
+	
+	private void playMove() {
+		board[playerCurrentPos]=playerChar;
+		showBoard();
 	}
 	public static void main(String args[]) {
 		System.out.println("Game");
@@ -60,7 +81,9 @@ public class TicTacToeGame {
 		game1.player_choice_XO();
 		game1.showPlayer();
 		game1.showBoard();
-		System.out.print(game1.choosePosition());
+		game1.playerCurrentPosSetter(game1.choosePosition());
+		game1.playMove();
 	}
+	
 	
 }
