@@ -11,6 +11,8 @@ public class TicTacToeGame {
 	private static final char BLANK = ' ';
 	private static final String TAIL = "TAIL";
 	private static final String HEAD = "HEAD";
+	private static final String USER = "User";
+	private static final String COMPUTER = "Computer";
 	private char[] board;
 	private static int boardSize = 10;
 	private char playerChar;
@@ -18,7 +20,7 @@ public class TicTacToeGame {
 	private int playerCurrentPosition;
 	private final Scanner scannerObj = new Scanner(System.in);
 	private String playerTossChoice;
-	private boolean isPlayerWinsToss;
+	private String currentPlayer;
 	// Class Functions
 
 	// instantiate char board with board_size
@@ -103,13 +105,41 @@ public class TicTacToeGame {
 
 		if (tossResult == playerTossChoice) {
 			System.out.println("Player Wins the Toss Player Moves First ");
-			isPlayerWinsToss = true;
+			currentPlayer = USER;
 		} else {
 			System.out.println("Opponent Wins the Toss Opponent Moves First");
-			isPlayerWinsToss = false;
+			currentPlayer = COMPUTER;
 		}
 	}
-
+	
+	private boolean winningCondition() {
+		char checkChar;
+		if(currentPlayer == USER)
+			checkChar = playerChar;
+		else
+			checkChar = opponentChar;
+		
+		//horizontal check
+		for(int i=1;i<boardSize;i+=3) {
+			if(board[i]==checkChar && board[i+1]==checkChar && board[i+2]==checkChar)
+				return true;
+		}
+		
+		//vertical check
+		for(int i=1;i<=3;i++) {
+			if(board[i]==checkChar && board[i+3]==checkChar && board[i+6]==checkChar)
+				return true;
+		}
+		
+		if((board[1]==board[5]) && (board[5]==board[9]) && (board[9]==checkChar))
+			return true;
+		
+		if((board[3]==board[5]) && (board[5]==board[7]) && (board[7]==checkChar))
+			return true;
+		
+		return false;	
+	}
+	
 	public static void main(String args[]) {
 		System.out.println("Game");
 		TicTacToeGame game = new TicTacToeGame();
@@ -120,8 +150,11 @@ public class TicTacToeGame {
 		game.playerTossChoice();
 		game.tossWin();
 		game.showBoard();
+		
+		
 		game.playerCurrentPosSetter(game.choosePosition());
 		game.playMove();
+		System.out.println(game.winningCondition());
 	}
 
 }
