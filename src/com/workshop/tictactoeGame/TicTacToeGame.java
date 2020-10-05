@@ -9,13 +9,16 @@ public class TicTacToeGame {
 	private static final char ROUND = 'O';
 	private static final char CROSS = 'X';
 	private static final char BLANK = ' ';
+	private static final String TAIL = "TAIL";
+	private static final String HEAD = "HEAD";
 	private char[] board;
 	private static int boardSize = 10;
 	private char playerChar;
 	private char opponentChar;
 	private int playerCurrentPosition;
 	private final Scanner scannerObj = new Scanner(System.in);
-
+	private String playerTossChoice;
+	private boolean isPlayerWinsToss;
 	// Class Functions
 
 	// instantiate char board with board_size
@@ -29,12 +32,16 @@ public class TicTacToeGame {
 		System.out.println("Please Choose X or O");
 
 		playerChar = scannerObj.next().toUpperCase().charAt(0);
+		while (!(playerChar == 'X' || playerChar == 'O')) {
+			System.out.println("Please Choose X or O");
+			playerChar = scannerObj.next().toUpperCase().charAt(0);
+		}
 		opponentChar = (playerChar == CROSS) ? ROUND : CROSS;
 	}
 
 	// Showing the Token for Player and Opponent
 	private void showPlayer() {
-		System.out.println("Player Token " + playerChar + " Opponent Token " + opponentChar);
+		System.out.println("Player Token is " + playerChar + "\nOpponent Token is " + opponentChar);
 	}
 
 	// Printing the Current State of the Game Board
@@ -67,10 +74,40 @@ public class TicTacToeGame {
 	private void playerCurrentPosSetter(int cur) {
 		this.playerCurrentPosition = cur;
 	}
-
+	
+	//Players move in Board
 	private void playMove() {
 		board[playerCurrentPosition] = playerChar;
 		showBoard();
+	}
+	
+	//Player Choose its Choice in TOSS
+	private void playerTossChoice() {
+		System.out.println("Enter Your Choice Press \n 1.Head \n 2.Tail ");
+		int choice = scannerObj.nextInt();
+		if (choice == 1)
+			playerTossChoice = HEAD;
+		else
+			playerTossChoice = TAIL;
+	}
+	
+	//TOSS JUDGEMENT
+	private void tossWin() {
+		int randomNum = (int) (Math.random() * 20 % 2);
+		String tossResult;
+		if (randomNum == 0)
+			tossResult = TAIL;
+		else
+			tossResult = HEAD;
+		System.out.println("Coin Result is " + tossResult);
+
+		if (tossResult == playerTossChoice) {
+			System.out.println("Player Wins the Toss Player Moves First ");
+			isPlayerWinsToss = true;
+		} else {
+			System.out.println("Opponent Wins the Toss Opponent Moves First");
+			isPlayerWinsToss = false;
+		}
 	}
 
 	public static void main(String args[]) {
@@ -80,6 +117,8 @@ public class TicTacToeGame {
 
 		game.playerChoiceChar();
 		game.showPlayer();
+		game.playerTossChoice();
+		game.tossWin();
 		game.showBoard();
 		game.playerCurrentPosSetter(game.choosePosition());
 		game.playMove();
