@@ -123,6 +123,24 @@ public class TicTacToeGame {
 			return 7;
 		if(board[9]==BLANK)
 			return 9;
+		return availableCenter();
+	}
+
+	private int availableCenter() {
+		if(board[5]==BLANK)
+			return 5;
+		return availbleSides();
+	}
+
+	private int availbleSides() {
+		if(board[2]==BLANK)
+			return 2;
+		if(board[4]==BLANK)
+			return 4;
+		if(board[6]==BLANK)
+			return 6;
+		if(board[8]==BLANK)
+			return 8;
 		return randomGeneratedPosition();
 	}
 
