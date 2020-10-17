@@ -62,10 +62,62 @@ public class TicTacToeGame {
 		return (board[currentPos] == BLANK) ? true : false;
 	}
 
+	// returns dynamic position to block user to win
+	private int blockGeneratedPosition() {
+		int position=1;
+		int max=0;
+		for(int i=1;i<boardSize;i+=3){
+			int ct=0;
+			if(board[i]==playerChar && board[i]!=opponentChar)
+				ct++;
+			if(board[i+1]==playerChar && board[i+1]!=opponentChar)
+				ct++;
+			if(board[i+2]==playerChar && board[i+2]!=opponentChar)
+				ct++;
+
+			if(ct!=3 && ct>max)
+			{
+				if(board[i]!=playerChar && board[i]!=opponentChar)
+					position=i;
+				if(board[i+1]!=playerChar && board[i+1]!=opponentChar)
+					position=i+1;
+				if(board[i+2]!=playerChar && board[i+2]!=opponentChar)
+					position=i+2;
+				max=ct;
+			}
+		}
+
+		for(int i=1;i<=3;i+=1){
+			int ct=0;
+			if(board[i]==playerChar && board[i]!=opponentChar)
+				ct++;
+			if(board[i+3]==playerChar && board[i+3]!=opponentChar)
+				ct++;
+			if(board[i+6]==playerChar && board[i+6]!=opponentChar)
+				ct++;
+
+			if(ct!=3 && ct>=max)
+			{
+				if(board[i]!=playerChar && board[i]!=opponentChar)
+					position=i;
+				else if(board[i+3]!=playerChar && board[i+3]!=opponentChar)
+					position=i+3;
+				else if(board[i+6]!=playerChar && board[i+6]!=opponentChar)
+					position=i+6;
+				max=ct;
+			}
+		}
+		System.out.println("pos " + position);
+		if(position==1)
+			return randomGeneratedPosition();
+		return position;
+	}
+
+
 	// Taking Choice of User to get the Current Position in Board
 	private int choosePosition() {
 		if(currentPlayer==COMPUTER)
-			return randomGeneratedPosition();
+			return blockGeneratedPosition();
 		System.out.println(currentPlayer + " Choose any Number Between 1 and 9 ");
 		int currentPos = scannerObj.nextInt();
 		while ((currentPos >= boardSize || currentPos < 1) && !getStatus(currentPos)) {
