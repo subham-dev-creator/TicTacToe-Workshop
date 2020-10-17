@@ -109,8 +109,21 @@ public class TicTacToeGame {
 		}
 		System.out.println("pos " + position);
 		if(position==1)
-			return randomGeneratedPosition();
+			return availableCorner();
 		return position;
+	}
+
+	// Finds the corner positions available , if not then generates a randon position
+	private int availableCorner() {
+		if(board[1]==BLANK)
+			return  1;
+		if(board[3]==BLANK)
+			return 3;
+		if(board[7]==BLANK)
+			return 7;
+		if(board[9]==BLANK)
+			return 9;
+		return randomGeneratedPosition();
 	}
 
 
