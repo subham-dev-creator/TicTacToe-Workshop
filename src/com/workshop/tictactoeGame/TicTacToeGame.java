@@ -259,6 +259,10 @@ public class TicTacToeGame {
 				break;
 			}
 		}
+		System.out.println("Want to play More then Enter Y ");
+		String choice = scannerObj.next();
+		if(choice.toUpperCase().equals("Y"))
+			start();
 	}
 	
 	//Checking Board is FULL or NOT
